@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gacha Gacha!</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fff8f6",
+                        "on-secondary-fixed": "#2d141c",
+                        "primary-fixed": "#ffdad2",
+                        "background": "#fff8f6",
+                        "outline": "#85736f",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "secondary-container": "#ffd1dc",
+                        "secondary-fixed-dim": "#e7bbc6",
+                        "primary-container": "#f4a492",
+                        "on-background": "#281714",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffddb6",
+                        "on-primary-container": "#72382b",
+                        "outline-variant": "#d8c2bd",
+                        "tertiary": "#845400",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#ffe9e5",
+                        "secondary-fixed": "#ffd9e2",
+                        "inverse-primary": "#ffb4a4",
+                        "secondary": "#78555e",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-container-highest": "#fcdbd5",
+                        "inverse-surface": "#3f2c28",
+                        "surface-bright": "#fff8f6",
+                        "error-container": "#ffdad6",
+                        "primary": "#8c4d3f",
+                        "surface-container-high": "#ffe2dc",
+                        "inverse-on-surface": "#ffede9",
+                        "primary-fixed-dim": "#ffb4a4",
+                        "surface-container-low": "#fff0ee",
+                        "on-tertiary-container": "#674000",
+                        "surface-dim": "#f3d3cd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#534340",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#fcdbd5",
+                        "tertiary-container": "#f3a93e",
+                        "on-secondary-fixed-variant": "#5e3e47",
+                        "tertiary-fixed-dim": "#ffb95a",
+                        "on-surface": "#281714",
+                        "surface-tint": "#8c4d3f",
+                        "on-primary-fixed": "#380c04",
+                        "on-secondary-container": "#7a5761",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#6f3629"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1e222b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        .mobile-container {
+            position: relative;
+            width: auto;
+            height: 90vh; 
+            aspect-ratio: 9 / 16;
+            overflow: hidden;
+            background-image: url('background.png');
+            background-size: 108% 108%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            border-radius: 1.5rem;
+            /* Micro-animazione continua dello sfondo */
+            animation: animate-bg-float 8s ease-in-out infinite;
+        }
+
+        @media (max-width: 600px) {
+            .mobile-container {
+                width: 100vw;
+                height: 100vh;
+                aspect-ratio: auto;
+                border-radius: 0;
+            }
+        }
+
+        /* 1. Animazione Sfondo: Movimento diagonale millimetrico */
+        @keyframes animate-bg-float {
+            0%, 100% { background-position: center; }
+            50% { background-position: calc(50% + 4px) calc(50% + 3px); }
+        }
+
+        /* 2. Animazione Titolo: Oscillazione verticale morbida */
+        .animate-title-float {
+            animation: title-float 5s ease-in-out infinite;
+        }
+        @keyframes title-float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(0.4deg); }
+        }
+
+        /* 3. Animazione Macchina: Micro-parallasse laterale continuo */
+        .animate-machine-float {
+            animation: machine-float 6s ease-in-out infinite;
+        }
+        @keyframes machine-float {
+            0%, 100% { transform: translateX(0px) translateY(0px); }
+            50% { transform: translateX(-3px) translateY(1px); }
+        }
+
+        /* Animazioni di Interazione Meccanica */
+        .spin-animation {
+            animation: spin-step 1.8s forwards;
+        }
+
+        @keyframes spin-step {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(120deg); }
+            35% { transform: translate(-50%, -50%) rotate(120deg); }
+            60% { transform: translate(-50%, -50%) rotate(240deg); }
+            70% { transform: translate(-50%, -50%) rotate(240deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .drop-animation {
+            animation: drop-bounce 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+            display: block !important;
+        }
+
+        @keyframes drop-bounce {
+            0% { transform: translateX(-50%) translateY(-50px) scale(1, 1); opacity: 0; }
+            40% { transform: translateX(-50%) translateY(0) scale(1, 1); opacity: 1; }
+            50% { transform: translateX(-50%) translateY(0) scale(1.2, 0.8); }
+            65% { transform: translateX(-50%) translateY(-15px) scale(0.9, 1.1); }
+            80% { transform: translateX(-50%) translateY(0) scale(1.05, 0.95); }
+            100% { transform: translateX(-50%) translateY(0) scale(1, 1); opacity: 1; }
+        }
+        
+        .pulse-soft {
+            animation: pulse-soft 2s infinite;
+        }
+        
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+    <div class="mobile-container flex flex-col items-center justify-between py-6">
+        <div class="z-0 text-center px-4 w-full mt-4 -mb-6 animate-title-float">
+            <img alt="Titolo" class="w-6/12 mx-auto object-contain drop-shadow-md" src="titolo.png">
+        </div>
+
+        <div class="relative w-full flex-1 flex items-center justify-center animate-machine-float">
+            <img alt="Gacha Machine" class="w-11/12 h-full max-h-[62vh] object-contain z-10 pointer-events-none" src="Gacha_machine.png">
+            
+            <div class="absolute z-20 cursor-pointer" id="crank-container" style="top: 63%; left: 50%; transform: translate(-50%, -50%); width: 25%; aspect-ratio: 1/1;">
+                <img alt="Crank" class="w-full h-full object-contain drop-shadow-lg transition-transform hover:scale-105 active:scale-95" id="crank" src="manopola.png">
+                <div class="absolute -inset-2 bg-primary/20 rounded-full animate-ping -z-10" id="crank-hint" style="display: block;"></div>
+            </div>
+
+            <div class="absolute z-30 cursor-pointer hidden" id="capsule-container" style="bottom: 11%; left: 68%; transform: translateX(-50%); width: 20%; aspect-ratio: 1/1;">
+                <img alt="Capsule" class="w-full h-full object-contain drop-shadow-xl pulse-soft" id="capsule" src="pallina.png">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-surface text-primary text-xs font-bold px-2 py-1 rounded-full border border-outline whitespace-nowrap animate-bounce shadow-sm">
+                    Apri!
+                </div>
+            </div>
+        </div>
+
+        <div class="z-10 text-center pb-2 w-full text-on-background opacity-90 text-sm font-semibold tracking-wide drop-shadow-sm mt-4">
+            Created by RABEBOP ⭐
+        </div>
+
+        <div class="absolute inset-0 z-50 bg-on-background/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 transition-opacity duration-300 hidden opacity-0" id="overlay">
+            <div class="bg-surface w-full max-w-sm rounded-3xl p-6 border-4 border-outline flex flex-col items-center relative transform transition-transform duration-300 scale-95" id="overlay-content">
+                <h2 class="text-3xl font-extrabold text-primary text-center mb-6 border-b-2 border-outline-variant pb-4 w-full tracking-wide">HAI VINTO!</h2>
+                
+                <div class="relative w-44 h-44 mb-6 rounded-2xl overflow-hidden border-2 border-outline shadow-inner bg-surface-container-high flex items-center justify-center">
+                    <img alt="Prize" class="w-full h-full object-contain" src="spritz.png">
+                </div>
+                
+                <div class="text-md text-on-surface text-center mb-8 bg-secondary-container py-3 px-4 rounded-xl border border-secondary-fixed-dim w-full">
+                    <span class="font-bold text-primary block mb-2">Hai ottenuto un COCKTAIL RARO! 🍹</span>
+                    <span class="text-sm block leading-relaxed">Aperitivo ore 18.00<br>Non mancare!<br>(e offrimi da bere!)</span>
+                </div>
+                <button class="bg-primary text-on-primary text-lg py-4 px-10 rounded-full border-b-4 border-on-primary-fixed active:border-b-0 active:translate-y-1 transition-all shadow-md w-full flex items-center justify-center gap-2" id="btn-reset">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Riprova
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const crankContainer = document.getElementById('crank-container');
+            const crankHint = document.getElementById('crank-hint');
+            const capsuleContainer = document.getElementById('capsule-container');
+            const overlay = document.getElementById('overlay');
+            const overlayContent = document.getElementById('overlay-content');
+            const btnReset = document.getElementById('btn-reset');
+
+            let isPlaying = false;
+
+            crankContainer.addEventListener('click', () => {
+                if (isPlaying) return;
+                isPlaying = true;
+                
+                crankHint.style.display = 'none';
+                crankContainer.classList.add('spin-animation');
+
+                setTimeout(() => {
+                    crankContainer.classList.remove('spin-animation');
+                    capsuleContainer.classList.remove('hidden');
+                    capsuleContainer.classList.add('drop-animation');
+                }, 1800);
+            });
+
+            capsuleContainer.addEventListener('click', () => {
+                capsuleContainer.classList.remove('drop-animation');
+                capsuleContainer.classList.add('hidden');
+                
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+                overlayContent.classList.remove('scale-95');
+                overlayContent.classList.add('scale-100');
+            });
+
+            btnReset.addEventListener('click', () => {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                overlayContent.classList.remove('scale-100');
+                overlayContent.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    isPlaying = false;
+                    crankHint.style.display = 'block';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
