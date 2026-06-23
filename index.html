@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Gacha Gacha!</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,FILL@0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <script id="tailwind-config">
         tailwind.config = {
@@ -126,18 +126,15 @@
             50% { transform: translateX(-3px) translateY(1px); }
         }
 
-        /* Animazione personalizzata per le singole iconcine decorative */
-        .animated-decor-icon {
+        /* Animazione fluttuante per le icone decorative di sfondo */
+        .icona-decorativa {
             position: absolute;
-            z-index: 5;
-            pointer-events: none;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-            animation: float-decor 4s ease-in-out infinite;
+            animation: float-iconcina 4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
-
-        @keyframes float-decor {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(6deg); }
+        @keyframes float-iconcina {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(6deg); }
         }
 
         .spin-animation {
@@ -180,16 +177,18 @@
 <body class="text-on-surface">
     <div class="mobile-container flex flex-col items-center justify-between py-6">
         
-        <img src="img/icone/bibita.png" class="animated-decor-icon w-10" style="top: 15%; left: 8%; animation-delay: 0s;">
-        <img src="img/icone/cuore.png" class="animated-decor-icon w-8" style="top: 22%; right: 10%; animation-delay: 0.8s;">
-        <img src="img/icone/stellina.png" class="animated-decor-icon w-8" style="top: 42%; left: 6%; animation-delay: 1.5s;">
-        <img src="img/icone/nuvola.png" class="animated-decor-icon w-12" style="top: 52%; right: 5%; animation-delay: 2.2s;">
-        <img src="img/icone/cocktail-icon.png" class="animated-decor-icon w-10" style="bottom: 32%; left: 5%; animation-delay: 0.4s;">
-        <img src="img/icone/onigiri.png" class="animated-decor-icon w-9" style="bottom: 38%; right: 8%; animation-delay: 1.1s;">
-        <img src="img/icone/piantina.png" class="animated-decor-icon w-9" style="top: 68%; left: 10%; animation-delay: 1.9s;">
-        <img src="img/icone/piatto.png" class="animated-decor-icon w-10" style="bottom: 16%; right: 12%; animation-delay: 2.6s;">
+        <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            <img src="img/icone/bibita.png" class="icona-decorativa w-10" style="top: 14%; left: 8%; animation-delay: 0s;">
+            <img src="img/icone/cuore.png" class="icona-decorativa w-8" style="top: 20%; right: 8%; animation-delay: 0.8s;">
+            <img src="img/icone/stellina.png" class="icona-decorativa w-8" style="top: 40%; left: 6%; animation-delay: 1.5s;">
+            <img src="img/icone/nuvola.png" class="icona-decorativa w-12" style="top: 48%; right: 4%; animation-delay: 2.2s;">
+            <img src="img/icone/cocktail-icon.png" class="icona-decorativa w-10" style="bottom: 30%; left: 6%; animation-delay: 0.4s;">
+            <img src="img/icone/onigiri.png" class="icona-decorativa w-9" style="bottom: 35%; right: 8%; animation-delay: 1.1s;">
+            <img src="img/icone/piantina.png" class="icona-decorativa w-9" style="top: 65%; left: 9%; animation-delay: 1.9s;">
+            <img src="img/icone/piatto.png" class="icona-decorativa w-10" style="bottom: 15%; right: 10%; animation-delay: 2.6s;">
+        </div>
 
-        <div class="z-0 text-center px-4 w-full mt-4 -mb-4 animate-title-float">
+        <div class="z-10 text-center px-4 w-full mt-4 -mb-4 animate-title-float">
             <img alt="Titolo" class="w-6/12 mx-auto object-contain drop-shadow-md" src="img/titolo.png">
         </div>
 
@@ -209,7 +208,8 @@
             </div>
         </div>
 
-        <div class="z-20 w-full flex justify-center gap-3 px-4 mb-2" id="collection-container"></div>
+        <div class="z-20 w-full flex justify-center gap-3 px-4 mb-2" id="collection-container">
+        </div>
 
         <div class="z-10 text-center pb-2 w-full text-on-background opacity-90 text-sm font-semibold tracking-wide drop-shadow-sm mt-2">
             Created by RABEBOP ⭐
@@ -241,7 +241,8 @@
                 <p class="text-lg text-on-surface font-bold leading-relaxed mb-6">
                     Li hai collezionati tutti.<br>Ora vieni al bar...
                 </p>
-                <div class="flex justify-center gap-2 flex-wrap mb-8" id="final-collection-showcase"></div>
+                <div class="flex justify-center gap-2 flex-wrap mb-8" id="final-collection-showcase">
+                </div>
                 <button class="bg-tertiary-container text-on-tertiary-container text-lg py-4 px-10 rounded-full border-b-4 border-tertiary active:border-b-0 active:translate-y-1 transition-all shadow-md w-full font-bold flex items-center justify-center gap-2" onclick="location.reload()">
                     <span class="material-symbols-outlined">replay</span>
                     Ricomincia Gioco
@@ -267,10 +268,10 @@
             const finalOverlayContent = document.getElementById('final-overlay-content');
             const finalCollectionShowcase = document.getElementById('final-collection-showcase');
 
-            // Pool dei premi con cartella img/ corretta
+            // Pool statico dei premi dentro la cartella img/
             const allPrizes = [
                 { id: 'spritz', img: 'img/spritz.png', title: 'Hai ottenuto un COCKTAIL RARO! 🍹' },
-                { id: 'cocktail', img: 'img/cocktail.png', title: 'Hai ottenuto un COCKTAIL SPECIALE! 🍸' },
+                { id: 'cocktail', img: 'img/cocktail.png', title: 'Hai ottenuto un COCKTAIL SPECIALE! 1' },
                 { id: 'vino', img: 'img/vino.png', title: 'Hai ottenuto un CALICE DI VINO! 🍷' },
                 { id: 'negroni', img: 'img/negroni.png', title: 'Hai ottenuto un NEGRONI DECISO! 🥃' },
                 { id: 'gin-tonic', img: 'img/gin-tonic.png', title: 'Hai ottenuto un GIN TONIC FRESCO! 🍋' }
@@ -326,6 +327,7 @@
                 });
             }
 
+            // Inizializza l'album vuoto
             renderCollection();
 
             crankContainer.addEventListener('click', () => {
