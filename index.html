@@ -173,4 +173,165 @@
             Created by RABEBOP ⭐
         </div>
 
-        <div class="absolute inset-0 z-50 bg-on-background/80 backdrop-blur-sm flex flex-col items-center justify-center p-6
+        <div class="absolute inset-0 z-50 bg-on-background/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 transition-opacity duration-300 hidden opacity-0" id="overlay">
+            <div class="bg-surface w-full max-w-sm rounded-3xl p-6 border-4 border-outline flex flex-col items-center relative transform transition-transform duration-300 scale-95" id="overlay-content">
+                <h2 class="text-3xl font-extrabold text-primary text-center mb-6 border-b-2 border-outline-variant pb-4 w-full tracking-wide">CONGRATULAZIONI!</h2>
+                
+                <div class="relative w-44 h-44 mb-6 rounded-2xl overflow-hidden border-2 border-outline shadow-inner bg-surface-container-high flex items-center justify-center">
+                    <img id="prize-img" alt="Prize" class="w-full h-full object-contain p-2" src="img/spritz.png">
+                </div>
+                
+                <div class="text-md text-on-surface text-center mb-8 bg-secondary-container py-3 px-4 rounded-xl border border-secondary-fixed-dim w-full">
+                    <span id="prize-title" class="font-bold text-primary block mb-2"></span>
+                    <span class="text-sm block leading-relaxed">Aperitivo ore 18.00<br>Non mancare!<br>(e offrimi da bere!)</span>
+                </div>
+                <button class="bg-primary text-on-primary text-lg py-4 px-10 rounded-full border-b-4 active:translate-y-1 transition-all shadow-md w-full flex items-center justify-center gap-2" id="btn-reset">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Riprova
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute inset-0 z-[60] bg-on-background/90 backdrop-blur-md flex flex-col items-center justify-center p-6 transition-opacity duration-300 hidden opacity-0" id="final-overlay">
+            <div class="bg-surface w-full max-w-sm rounded-3xl p-8 border-4 border-tertiary-container text-center shadow-2xl transform transition-transform duration-300 scale-95" id="final-overlay-content">
+                <span class="material-symbols-outlined text-6xl text-tertiary-container mb-2 block animate-bounce">stars</span>
+                <h2 class="text-3xl font-extrabold text-primary mb-4 border-b-2 border-outline-variant pb-4">COMPLIMENTI!</h2>
+                <p class="text-lg text-on-surface font-bold leading-relaxed mb-6">
+                    Li hai collezionati tutti.<br>Ora vieni al bar...
+                </p>
+                <div class="flex justify-center gap-2 flex-wrap mb-8" id="final-collection-showcase"></div>
+                <button class="bg-tertiary-container text-on-tertiary-container text-lg py-4 px-10 rounded-full border-b-4 border-tertiary active:translate-y-1 transition-all shadow-md w-full font-bold flex items-center justify-center gap-2" onclick="location.reload()">
+                    <span class="material-symbols-outlined">replay</span>
+                    Ricomincia Gioco
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const crankContainer = document.getElementById('crank-container');
+            const crankHint = document.getElementById('crank-hint');
+            const capsuleContainer = document.getElementById('capsule-container');
+            const overlay = document.getElementById('overlay');
+            const overlayContent = document.getElementById('overlay-content');
+            const btnReset = document.getElementById('btn-reset');
+            const prizeImg = document.getElementById('prize-img');
+            const prizeTitle = document.getElementById('prize-title');
+            const collectionContainer = document.getElementById('collection-container');
+            const finalOverlay = document.getElementById('final-overlay');
+            const finalOverlayContent = document.getElementById('final-overlay-content');
+            const finalCollectionShowcase = document.getElementById('final-collection-showcase');
+
+            // Pool dei premi (Percorsi aggiornati a img/)
+            const allPrizes = [
+                { id: 'spritz', img: 'img/spritz.png', title: 'Hai ottenuto un COCKTAIL RARO! 🍹' },
+                { id: 'cocktail', img: 'img/cocktail.png', title: 'Hai ottenuto un COCKTAIL SPECIALE! 🍸' },
+                { id: 'vino', img: 'img/vino.png', title: 'Hai ottenuto un CALICE DI VINO! 🍷' },
+                { id: 'negroni', img: 'img/negroni.png', title: 'Hai ottenuto un NEGRONI DECISO! 🥃' },
+                { id: 'gin-tonic', img: 'img/gin-tonic.png', title: 'Hai ottenuto un GIN TONIC FRESCO! 🍋' }
+            ];
+
+            let collectionCounts = { 'spritz': 0, 'cocktail': 0, 'vino': 0, 'negroni': 0, 'gin-tonic': 0 };
+            let isPlaying = false;
+
+            function isCollectionComplete() {
+                return Object.values(collectionCounts).every(count => count > 0);
+            }
+
+            function renderCollection() {
+                collectionContainer.innerHTML = '';
+                allPrizes.forEach(prize => {
+                    const slotWrapper = document.createElement('div');
+                    slotWrapper.className = 'relative';
+                    const slot = document.createElement('div');
+                    slot.className = 'w-10 h-10 rounded-full border-2 flex items-center justify-center overflow-hidden drop-shadow-sm transition-all duration-300';
+                    const count = collectionCounts[prize.id];
+                    
+                    if (count > 0) {
+                        slot.classList.add('border-primary', 'bg-surface-bright');
+                        const img = document.createElement('img');
+                        img.src = prize.img;
+                        img.className = 'w-3/4 h-3/4 object-contain';
+                        slot.appendChild(img);
+                        const badge = document.createElement('div');
+                        badge.className = 'absolute -top-1.5 -right-1.5 bg-primary text-on-primary text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center border border-surface shadow-sm scale-100';
+                        badge.innerText = count;
+                        slotWrapper.appendChild(badge);
+                    } else {
+                        slot.classList.add('border-outline/40', 'bg-surface-container/50');
+                        const qm = document.createElement('span');
+                        qm.className = 'text-outline/40 font-bold text-sm';
+                        qm.innerText = '?';
+                        slot.appendChild(qm);
+                    }
+                    slotWrapper.appendChild(slot);
+                    collectionContainer.appendChild(slotWrapper);
+                });
+            }
+
+            renderCollection();
+
+            crankContainer.addEventListener('click', () => {
+                if (isPlaying || isCollectionComplete()) return;
+                isPlaying = true;
+                crankHint.style.display = 'none';
+                crankContainer.classList.add('spin-animation');
+                setTimeout(() => {
+                    crankContainer.classList.remove('spin-animation');
+                    capsuleContainer.classList.remove('hidden');
+                    capsuleContainer.classList.add('drop-animation');
+                }, 1800);
+            });
+
+            capsuleContainer.addEventListener('click', () => {
+                capsuleContainer.classList.remove('drop-animation');
+                capsuleContainer.classList.add('hidden');
+                const randomIndex = Math.floor(Math.random() * allPrizes.length);
+                const randomPrize = allPrizes[randomIndex];
+                collectionCounts[randomPrize.id]++;
+                prizeImg.src = randomPrize.img;
+                prizeTitle.innerHTML = randomPrize.title;
+                renderCollection();
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+                overlayContent.classList.remove('scale-95');
+                overlayContent.classList.add('scale-100');
+            });
+
+            btnReset.addEventListener('click', () => {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                overlayContent.classList.remove('scale-100');
+                overlayContent.classList.add('scale-95');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    isPlaying = false;
+                    if (isCollectionComplete()) {
+                        finalCollectionShowcase.innerHTML = '';
+                        allPrizes.forEach(prize => {
+                            const imgBox = document.createElement('div');
+                            imgBox.className = 'w-12 h-12 rounded-full border-2 border-primary bg-surface-bright flex items-center justify-center p-1';
+                            const img = document.createElement('img');
+                            img.src = prize.img;
+                            img.className = 'w-full h-full object-contain';
+                            imgBox.appendChild(img);
+                            finalCollectionShowcase.appendChild(imgBox);
+                        });
+                        finalOverlay.classList.remove('hidden');
+                        void finalOverlay.offsetWidth;
+                        finalOverlay.classList.remove('opacity-0');
+                        finalOverlay.classList.add('opacity-100');
+                        finalOverlayContent.classList.remove('scale-95');
+                        finalOverlayContent.classList.add('scale-100');
+                    } else {
+                        crankHint.style.display = 'block';
+                    }
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
